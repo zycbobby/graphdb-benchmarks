@@ -31,16 +31,21 @@ var benchmarkQueries = []struct {
 	{
 		query: `
 				{
-					me(_xid_: m.06pj8) {
-						type.object.name.en
-						film.director.film  {
-						film.film.genre {
-							type.object.name.en
-						}
-						type.object.name.en
-						film.film.initial_release_date
-						}
-					}
+				  var(func: eq(name, "5fYfxWzxRh")) {
+						A AS follow
+				  }
+
+				  var(func: uid(A)) {
+					P AS post
+				  }
+				  timeline(func: uid(P),orderdesc: post.post_time, offset: 0, first: 1) {
+					~post{
+					name
+				  }
+					post.content
+					post.post_time
+					post.media_type
+				  }
 				}
 		`,
 	},

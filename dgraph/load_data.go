@@ -26,7 +26,8 @@ import (
 //ImportDataToDB imports given data to db for benchmarking purpose.
 func ImportDataToDB() {
 	// cmd := exec.Command("dgraph", "live", "-r=../data/21million.rdf.gz")
-	cmd := exec.Command("dgraph", "live", "-r=../data/30kmoviedata.nq.gz")
+	// cmd := exec.Command("dgraph", "live", "-r=../data/30kmoviedata.nq.gz")
+	cmd := exec.Command("dgraph", "live", "-r=../data/social_network_10000.rdf")
 
 	printCommand(cmd)
 	output, err := cmd.CombinedOutput()

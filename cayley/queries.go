@@ -36,28 +36,18 @@ var benchmarkQueries = []struct {
 	// Finding movies and genre of movies directed by "Steven Spielberg"?
 	{
 		query: `
-				var director = g.V("<m.06pj8>").Out("<type.object.name>").ToArray()[0]
-				var b = g.V("<m.06pj8>").Out("<film.director.film>").ToArray()
+				var arrays = g.V("_:5fYfxWzxRh").Out("<follow>").Out("<post>").ToArray()
 
-				_.each(b, function(s){
-				var film_name = g.V(s).Out("<type.object.name>").ToArray()[0]
-				var file_release = g.V(s).Out("<film.film.initial_release_date>").ToArray()[0]
-				var movie = {}
-				movie["director"] = director
-				movie["film_name"] = film_name
-				movie["file_release"] = file_release
-				
-				var genre = g.V(s).Out("<film.film.genre>").ToArray()
-				var genre_list = ""
-				_.each(genre, function(gen){
-						var genre_name =  g.V(gen).Out("<type.object.name>").ToArray()[0]
-						genre_list += genre_name + ", "
+				res = arrays.map(function(x) {
+				  d = {}
+				  d["name"] = g.V(x).In("<post>").Out("<name>").ToArray()[0]
+				  d["post.content"] = g.V(x).Out("<post.content>").ToArray()[0]
+				  d["post.post_time"] = parseInt(g.V(x).Out("<post.post_time>").ToArray()[0])
+				  d["post.media_type"] = parseInt(g.V(x).Out("<post.media_type>").ToArray()[0])
+				  return d
 				})
-				
-				movie["genre_list"] = genre_list
-				
-				g.Emit(movie)
-				})
+				res.sort(function(x,y) { return y["post.post_time"] - x["post.post_time"]})
+				g.Emit(res)
 		`,
 	},
 }
