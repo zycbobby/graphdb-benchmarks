@@ -38,7 +38,7 @@ var benchmarkQueries = []struct {
 				  var(func: uid(A)) {
 					P AS post
 				  }
-				  timeline(func: uid(P),orderdesc: post.post_time, offset: 0, first: 1) {
+				  timeline(func: uid(P),orderdesc: post.post_time, offset: 0, first: 100) {
 					~post{
 					name
 				  }

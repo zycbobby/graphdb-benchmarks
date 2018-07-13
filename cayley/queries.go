@@ -62,7 +62,7 @@ func runBench(n int, b *testing.B) {
 	b.StopTimer()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		r, err := http.NewRequest("POST", "http://127.0.0.1:64210/api/v1/query/gremlin", bytes.NewBufferString(benchmarkQueries[n].query))
+		r, err := http.NewRequest("POST", "http://127.0.0.1:64210/api/v1/query/gizmo", bytes.NewBufferString(benchmarkQueries[n].query))
 
 		b.StartTimer()
 		resp, err := hc.Do(r)
