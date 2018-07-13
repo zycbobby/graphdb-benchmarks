@@ -25,7 +25,9 @@ import (
 
 //ImportDataToDB imports given data to db for benchmarking purpose.
 func ImportDataToDB() {
-	cmd := exec.Command("cayley", "init", "-db=bolt", "-dbpath=cayleydb", "-quads=../data/21million.rdf.gz")
+	// cmd := exec.Command("cayley", "init", "-db=bolt", "-dbpath=cayleydb", "-quads=../data/21million.rdf.gz")
+	cmd := exec.Command("cayley", "load", "--db=bolt", "--dbpath=../cayley.db", "--load=../data/21million.rdf.gz")
+	// cmd := exec.Command("cayley", "load", "--db=bolt", "--dbpath=../cayley.db", "--load=../data/30kmoviedata.nq.gz")
 
 	printCommand(cmd)
 	output, err := cmd.CombinedOutput()
