@@ -22,7 +22,110 @@ import (
 	"log"
 	"net/http"
 	"testing"
+	"fmt"
 )
+
+var names = []string{"5fYfxWzxRh",
+	"oNWp4vzHDe",
+	"ZfUP2HO12v",
+	"MAaJqdLoA0",
+	"TtCyN46HxA",
+	"vBa0lalrAc",
+	"ofehApW3V6",
+	"SOFIDC7KRX",
+	"IlKoBGKL3x",
+	"CK47Zbx5H9",
+	"z7QZnIkVTi",
+	"HEIQYGLE6D",
+	"MAUaVKfPRj",
+	"jWEdzfdbUj",
+	"Wv7s0rM4au",
+	"PPhTMScy7L",
+	"5GwTwRwccU",
+	"PnBEv6IRFx",
+	"vTlcWJysLl",
+	"DxsedOOKbJ",
+	"MWUsTDfRJD",
+	"s6bLQJqzCD",
+	"SLDs80nDpv",
+	"NcpIyP7e63",
+	"V39HPj3an1",
+	"jaS9FGznFy",
+	"KnvGzZqVOP",
+	"bgUy8O36xf",
+	"2cwFy6xwvT",
+	"ArtRLme8aN",
+	"uGKJWYjApM",
+	"ok6ERKM2ey",
+	"azISzOCHET",
+	"8CIbpeKbfd",
+	"DmKB09fabT",
+	"iiwKh6XQGV",
+	"3Z9pis4xlF",
+	"agvkMtXy2Q",
+	"Q1hiOJS07H",
+	"WoVPHM38Bm",
+	"Ia4yBTXOVQ",
+	"VX82z1ZXAn",
+	"KiZbxybVlN",
+	"JvO0MROmat",
+	"hrydMdnIoI",
+	"Y80jJ3juRR",
+	"gtMqNbipQI",
+	"ozgJxaVXva",
+	"x7z5Ix7s16",
+	"JrbIQobRCO",
+	"yetdLEcB1w",
+	"D5IiTi5aQ1",
+	"m9olZ9AfJt",
+	"cw4xX6r8Cv",
+	"JxjKq46KZc",
+	"DvnaE7EJS9",
+	"vx5KC2yRvG",
+	"94IlaaufW3",
+	"ckF4IEBS0U",
+	"Bxk9cl1m2F",
+	"FRh6F2smIM",
+	"8VW65MyURR",
+	"TPJ26DhhYQ",
+	"o3gKBOAq0R",
+	"Imz3lUPDSx",
+	"u82HVmrYyX",
+	"Q89TN6t2q2",
+	"uEaGvVOnPp",
+	"y4oY7XqQbV",
+	"OrB84aVWiV",
+	"FqJGjMsyz8",
+	"4nexwka15a",
+	"5giKztRuB1",
+	"ebjNedmLPJ",
+	"2U3bRNHyV5",
+	"FGQ8ZrnKYo",
+	"2qlxlq9gjz",
+	"QQZhhkLMJC",
+	"3bUt3qmUL8",
+	"wodzQkfIEr",
+	"2nSx50D47p",
+	"8PIm20d7hS",
+	"l11UMe6bg1",
+	"GjyCfN2aR3",
+	"4zXFra0C3x",
+	"AABZJ0xuus",
+	"zJZrPIYMEY",
+	"fccZy4KMEC",
+	"3NAEL7GURB",
+	"9WkoHcdMEB",
+	"Z7OqeaI4gw",
+	"1NhL8nkLH3",
+	"SLCXjPCfKU",
+	"wq0SIB8Ukg",
+	"XWAU0X90O3",
+	"vIBlx22uHj",
+	"4ZMsJ97IAp",
+	"qvZZt4Uf7I",
+	"6IqnRlPe2t",
+	"XhKFzfHMeT",
+}
 
 var benchmarkQueries = []struct {
 	query string
@@ -31,7 +134,7 @@ var benchmarkQueries = []struct {
 	{
 		query: `
 				{
-				  var(func: eq(name, "5fYfxWzxRh")) {
+				  var(func: eq(name, "%s")) {
 						A AS follow
 				  }
 
@@ -61,7 +164,8 @@ func runBench(n int, b *testing.B) {
 	b.StopTimer()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		r, err := http.NewRequest("POST", "http://127.0.0.1:8080/query", bytes.NewBufferString(benchmarkQueries[n].query))
+		str := fmt.Sprintf(benchmarkQueries[n].query, names[i % len(names)])
+		r, err := http.NewRequest("POST", "http://127.0.0.1:8080/query", bytes.NewBufferString(str))
 
 		b.StartTimer()
 		resp, err := hc.Do(r)
